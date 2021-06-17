@@ -9,8 +9,8 @@ import net.intelie.challenges.EventIterator;
 
 public class EventInteratorSolution implements EventIterator {
     
-    private Iterator<Entry<Long, Event>> iterator;
 	private Event currentInteratorEvent = null;
+    private Iterator<Entry<Long, Event>> iterator;
 
     public EventInteratorSolution(Set<Entry<Long, Event>> events) {
         this.iterator = events.iterator();

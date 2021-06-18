@@ -1,38 +1,49 @@
 package net.intelie.challenges.solution;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import net.intelie.challenges.Event;
 import net.intelie.challenges.EventIterator;
 
 public class EventInteratorSolution implements EventIterator {
     
-	private Event currentInteratorEvent = null;
-    private Iterator<Entry<Long, Event>> iterator;
+	private final Iterator<Event> EVENTS;
 
-    public EventInteratorSolution(Set<Entry<Long, Event>> events) {
-        this.iterator = events.iterator();
-	}
+	public EventInteratorSolution(Collection<Event> events) {
 
-    public boolean moveNext() {
-        if(iterator.hasNext()) {
-			currentInteratorEvent =  iterator.next().getValue();
-			return true;
+		if (events != null) {
+			EVENTS = events.iterator();
+		}	
+		else {
+			EVENTS = new ArrayList<Event>().iterator();
 		}
-		return false;
+			
 	}
 
-    public void close() throws Exception {
+	@Override
+	public boolean moveNext() {
+		return EVENTS.hasNext();
 	}
 
-    public Event current() {
-		return currentInteratorEvent;
+	@Override
+	public Event current() {
+
+		if (!this.moveNext()) {
+			throw new IllegalStateException();
+		}
+			
+		return EVENTS.next();
 	}
 
+	@Override
 	public void remove() {
-        iterator.remove();
+		EVENTS.remove();
+	}
+
+	@Override
+	public void close() throws Exception {
 	}
 
 }

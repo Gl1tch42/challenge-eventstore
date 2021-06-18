@@ -9,40 +9,45 @@ import org.junit.runners.MethodSorters;
 
 import net.intelie.challenges.solution.EventStoreSolution;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EventStoreTest {
 
     @Test
-	public void test1_insert() {
-		EventStoreSolution eventStore = new EventStoreSolution();
+	public void test_insert() {
+		EventStoreSolution eventStore = EventStoreSolution.getInstance();
 		eventStore.insert(new Event("type", 0));
 
-        Event queryEvent = eventStore.query("type", 0, 0).current();
-		assertEquals("type", queryEvent.type());
-		assertEquals(0, queryEvent.timestamp());
+        Event Event = eventStore.query("type", 0, 1).current();
+        assertEquals("type", Event.type());
+        assertEquals(0, Event.timestamp());
+
 	}
 
     @Test
-	public void test20_removeAll() {
-		EventStoreSolution eventStore = new  EventStoreSolution();
-		eventStore.insert(new Event("type", 1));
-		eventStore.insert(new Event("type", 2));
-		eventStore.insert(new Event("type", 3));
+	public void test_removeAll() {
 
-		EventIterator queryEventIt = eventStore.query("type01", 0, 104);
-		Event currentEvent;
-		int count = 0;
+		EventStoreSolution eventStore = EventStoreSolution.getInstance();
 
-		while (queryEventIt.moveNext()) {
-			currentEvent = queryEventIt.current();
-			assertEquals("type01", currentEvent.type());
-			count++;
-		}
+        eventStore.insert(new Event("type", 1));
+        eventStore.insert(new Event("type", 2));
+        eventStore.insert(new Event("type", 3));
+        eventStore.insert(new Event("type", 4));
 
-		assertEquals(4, count);
-		eventStore.removeAll("type01");
+        EventIterator Events = eventStore.query("type", 0, 5);
+        Event curreEvent;
 
-		queryEventIt = eventStore.query("type01", 0, 104);
-		assertFalse(queryEventIt.moveNext());
+        int i = 0;
+        while (Events.moveNext()) {
+            curreEvent = Events.current();
+            assertEquals("type", curreEvent.type());
+            i++;
+        }
+
+        assertEquals(5, i);
+        eventStore.removeAll("type");
+
+        Events = eventStore.query("type", 0, 5);
+        assertFalse(Events.moveNext());
 	}
     
 }

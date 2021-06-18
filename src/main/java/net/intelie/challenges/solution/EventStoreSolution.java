@@ -22,7 +22,6 @@ public class EventStoreSolution implements EventStore {
 	
 	public static EventStoreSolution getInstance() {
 		if (instance == null) {
-
 			synchronized (EventStoreSolution.class) {
 				if (instance == null) {
 					instance = new EventStoreSolution();
@@ -84,7 +83,7 @@ public class EventStoreSolution implements EventStore {
 		try {
 
 			if (STORAGE.containsKey(type)) {
-                
+
 				List<Event> eventsQueryList = new ArrayList<>(STORAGE.get(type));
 				return new EventInteratorSolution(eventsQueryList.stream()
 						.filter(event -> event.timestamp() >= startTime && event.timestamp() < endTime)

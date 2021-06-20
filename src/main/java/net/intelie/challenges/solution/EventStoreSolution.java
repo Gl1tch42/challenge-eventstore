@@ -13,13 +13,12 @@ import net.intelie.challenges.EventStore;
 
 public class EventStoreSolution implements EventStore {
 
-    private static EventStoreSolution instance;
+	private static EventStoreSolution instance;
 
 	private static final Map<String, List<Event>> STORAGE = new ConcurrentHashMap<String, List<Event>>();
 
 	private ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
 
-	
 	public static EventStoreSolution getInstance() {
 		if (instance == null) {
 			synchronized (EventStoreSolution.class) {
@@ -30,10 +29,6 @@ public class EventStoreSolution implements EventStore {
 		}
 
 		return instance;
-	}
-
-	private EventStoreSolution() {
-
 	}
 
 	@Override
@@ -75,9 +70,10 @@ public class EventStoreSolution implements EventStore {
 
 	@Override
 	public synchronized EventIterator query(String type, long startTime, long endTime) {
-		if (type == null){
-            return new EventInteratorSolution(new ArrayList<Event>());
-        }
+		
+		if (type == null) {
+			return new EventInteratorSolution(new ArrayList<Event>());
+		}
 
 		reentrantReadWriteLock.readLock().lock();
 		try {
@@ -98,5 +94,5 @@ public class EventStoreSolution implements EventStore {
 		}
 
 	}
-    
+
 }

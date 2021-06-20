@@ -65,7 +65,6 @@ public class EventInteratorTeste {
 
 		assertFalse(eventIterator.moveNext());
 
-		// should throw IllegalStateException
 		eventIterator.current();
 	}
 
@@ -77,8 +76,7 @@ public class EventInteratorTeste {
 		
 		eventIterator.remove();
 		assertFalse(eventIterator.moveNext());
-		
-		// should throw IllegalStateException
+
 		eventIterator.current();
 
 	}
